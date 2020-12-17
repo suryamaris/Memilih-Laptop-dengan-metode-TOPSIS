@@ -1,65 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Barang</title>
-</head>
-<body>
-	<h3>Tambah Barang</h3>
+<?php
+	include "koneksi.php";
  
-	<br/>
-	<a href="proses.php">KEMBALI</a>
-	<br/>
-	<form action="proses.php" method="POST">
-		<table>
-			<tr>
-				<td>ID kebutuhan</td>
-				<td>:</td>
-				<td><div class="u-form-select-wrapper">
-                <select id="select-decd" name="kebutuhan" class="u-border-2 u-border-black u-input u-input-rectangle u-radius-9 u-white">
-                  <option value="Desain">Desain</option>
-                  <option value="Sekolah">Sekolah</option>
-                  <option value="Pengolahan Data">Pengolahan Data</option>
-                  <option value="Akuntansi">Akuntansi</option>
-                  <option value="Gaming">Gaming</option>
-                  <option value="Editing">Editing</option>
-                  <option value="programming">Programming</option>
-                </select>
-			</tr>
-			
-			<tr>
-				<td>Status</td>
-				<td>:</td>
-				<td><select id="select-f46d" name="status" class="u-border-2 u-border-black u-input u-input-rectangle u-radius-9 u-white">
-                  <option value="Siswa">Siswa</option>
-                  <option value="Mahasiswa">Mahasisiwa</option>
-                  <option value="Pekerja Kantoran">Pekerja Kantoran</option>
-                  <option value="Enterpreneure">Enterpreneure</option>
-                  <option value="Editor">Editor</option>
-                  <option value="Photograper">Photograper</option>
-                  <option value="Gamer">Gamer</option>
-                  <option value="Developer">Developer</option>
-                </select>
-			</tr>
-			
-			<tr>
-				<td>Harga</td>
-				<td>:</td>
-					
-					<td>
-						<input type="text" placeholder="" id="text-2294" name="harga" class="u-border-2 u-border-black u-input u-input-rectangle u-radius-9 u-white">
-
-					</td>
-					
-			</tr>
-			<td></td>
-				<td></td>
-				<td>
-					<input type="submit" name="kirim" value="SIMPAN">
-					<input type="reset" name="clear" value="BATAL">
-				</td>
-			</tr>
-		</table>
-	</form>
+	$id_costumer = $_POST["id_costumer"];
+	$nama = $_POST["nama"];
+	$tipe = $_POST["tipe"];
+	$fasilitas = $_POST["fasilitas"];
+	$jumlah_beli = $_POST["jumlah_beli"];
+	$uang_muka = $_POST["uang_muka"];
+	$jangka_kredit = $_POST["jangka_kredit"];
+	
+	
+	$harga = mysqli_query($koneksi,"SELECT harga FROM rumah WHERE tipe = '$tipe'");
+	
+	$row = $harga->fetch_assoc();
+	
+	
+	
+	if($fasilitas=="terali"){
+		$harga_fasilitas = 600000;
+	}
+	else if($fasilitas=="pagar"){
+		$harga_fasilitas = 3500000;
+	}
+	else if($fasilitas=="kitchen_set"){
+		$harga_fasilitas= 2000000;
+	}
+	else{
+		$harga_fasilitas = 4500000;
+	}
+	$harga_fasilitas = $harga_fasilitas * $jumlah_beli;
+	
+	$hutang = ($row['harga']+$harga_fasilitas) * $jumlah_beli;
+	
+	
+	$suku_bunga = mysqli_query($koneksi,"SELECT suku_bunga FROM rumah WHERE tipe = '$tipe'");
+	$suku = $suku_bunga->fetch_assoc();
+	
+	$hutang_bunga = $hutang * $suku['suku_bunga'] / 100;
+	
+	
+	$total_hutang = $hutang - $hutang_bunga;
+	$angsuran = $total_hutang / ($jangka_kredit*12);
+	
+	
+ 	// query sql
+	$sql = "INSERT INTO transaksi VALUES(' ','$id_costumer','$jumlah_beli','$harga_fasilitas','$uang_muka','$hutang','$hutang_bunga','$total_hutang','$jangka_kredit','$angsuran')";
+	$query = mysqli_query($koneksi, $sql) or die (mysqli_error());
+	$sql2 = mysqli_query($koneksi,"INSERT INTO costumer VALUES('$id_costumer','$nama',' ','')");
  
-</body>
-</html>
+	// mengalihkan halaman kembali ke index.php
+		header("location:index.php");
+		
+	if($query){
+		echo "\n Data berhasil di insert!";
+	} else {
+		echo "Error :".$sql."<br>".mysqli_error($koneksi);
+	}
+ 
+	mysqli_close($koneksi);
+ 
+?>
