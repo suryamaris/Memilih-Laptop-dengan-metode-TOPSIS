@@ -477,23 +477,8 @@ $normal = mysqli_query($koneksi,"SELECT * FROM score_laptop  ORDER BY tipe");
 
     $prefensi_laptop = mysqli_query($koneksi,"UPDATE prefensi set nilai_prefensi='$prefensi'WHERE tipe='$bobot_tipe'");
 
-  echo "<br>$prefensi";
     
 }
-$pilihan= mysqli_query($koneksi,"SELECT tipe from prefensi ORDER BY nilai_prefensi desc");
-    while($d_pilihan = mysqli_fetch_array($pilihan)){
-    $pilihanku = $d_pilihan['tipe'];
-    echo "<br>$pilihanku";
-
-    } 
-
-
-
-
-
-
-
-
     //Mencari rekomendasi dari status
 
     $bobot2 = mysqli_query($koneksi,"SELECT * FROM rekom_laptop  ORDER BY tipe");
