@@ -541,7 +541,7 @@ $pilihan2= mysqli_query($koneksi,"SELECT tipe FROM `prefensi` ORDER BY `nilai_re
     echo "<br>$pilihanku2";
 
     }
-  die();
+
     header("location:index.php");
   if($laptop){
     echo "\n Data berhasil di insert!";
