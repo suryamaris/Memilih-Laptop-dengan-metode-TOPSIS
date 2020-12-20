@@ -9,7 +9,7 @@
 	<br/>
 	<a href="index.php">KEMBALI</a>
 	<br/>
-	<form action="insert.php" method="POST">
+	<form action="insert.php" method="POST" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>Tipe Laptop</td>
@@ -149,6 +149,11 @@
 				<td>Harga</td>
 				<td>: Rp</td>
 				<td><input type="text" name="harga"></td>
+			</tr>
+			<tr>
+				<td>Gambar</td>
+				<td>: </td>
+				<td><input type="file" name="image"></td>
 			</tr>
 			
 		

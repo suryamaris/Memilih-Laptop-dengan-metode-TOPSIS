@@ -21,19 +21,19 @@
     $b_vga = $d_butuh["vga"];
     $b_layar = $d_butuh["layar"];
   }
-  if($harga>15000000)
+  if($harga>14000000)
   {
     $b_harga= 1;
   }
-  elseif ($harga>12000000) {
+  elseif ($harga>11000000) {
     # code...
     $b_harga= 2;
   }
-  elseif ($harga>8000000) {
+  elseif ($harga>7000000) {
     # code...
     $b_harga= 3;
   }
-  elseif ($harga>6000000) {
+  elseif ($harga>3500000) {
     # code...
     $b_harga= 4;
   }
@@ -125,6 +125,8 @@
       $sc_merk=3;
     elseif($n_merk=='Toshiba')
       $sc_merk=2;
+    else
+      $sc_merk=1;
     $pangkat_merk=0;
     $pangkat_merk= $pangkat_merk + $sc_merk*$sc_merk;
     $normal_merk=sqrt($pangkat_merk);
@@ -140,10 +142,12 @@
       $snc_tipe = 3;
     elseif($nc_tipe == 'i3')
       $snc_tipe = 3;
+    else
+      $snc_tipe = 1;
    
     
 
-    if ($nc_generasi>7)
+    if ($nc_generasi>8)
       $snc_generasi=5;
     elseif ($nc_generasi>5)
       $snc_generasi=4;
@@ -164,7 +168,7 @@
 
    
       $pangkat_nc_cpu=1;
-    $nc_cpu= 0.3*$snc_tipe + 0.3*$snc_generasi +0.4*$snc_kecepatan;
+    $nc_cpu= 0.4*$snc_tipe + 0.2*$snc_generasi +0.4*$snc_kecepatan;
      $pangkat_nc_cpu = $pangkat_nc_cpu+$nc_cpu*$nc_cpu;
      $normal_cpu=sqrt($pangkat_nc_cpu);
 
@@ -226,11 +230,11 @@ $pangkat_ram=1;
 
     if($n_harga>14000000)
       $s_harga=1;
-    elseif($n_harga>12000000)
+    elseif($n_harga>11000000)
       $s_harga=2;
-    elseif($n_harga>8000000)
+    elseif($n_harga>7000000)
       $s_harga=3;
-    elseif($n_harga>5000000)
+    elseif($n_harga>3500000)
       $s_harga=4;
     else
       $s_harga=5;
