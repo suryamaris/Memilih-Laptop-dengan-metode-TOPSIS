@@ -73,28 +73,41 @@
   }
 
   
+  $t_score = $b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar+$b_harga;
+  $tb_merk = $b_merk/$t_score*100;
+  $tb_cpu = $b_cpu/$t_score*100;
+  $tb_ram = $b_ram/$t_score*100;
+  $tb_hdd = $b_hdd/$t_score*100;
+  $tb_ssd = $b_ssd/$t_score*100;
+  $tb_vga = $b_vga/$t_score*100;
+  $tb_layar = $b_layar/$t_score*100;
+  $tb_harga = $b_harga/$t_score*100;
 
-  $tb_merk = $b_merk/($b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar+$b_harga)*100;
-  $tb_cpu = $b_cpu/($b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar)*100;
-  $tb_ram = $b_ram/($b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar)*100;
-  $tb_hdd = $b_hdd/($b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar)*100;
-  $tb_ssd = $b_ssd/($b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar)*100;
-  $tb_vga = $b_vga/($b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar)*100;
-  $tb_layar = $b_layar/($b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar)*100;
-  $tb_harga = $b_harga/($b_merk+$b_harga+$b_cpu+$b_ram+$b_hdd+$b_ssd+$b_vga+$b_layar)*100;
 
-  $rek2_merk = $rek_merk/($rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar+$rek_harga)*100;
-  $rek2_cpu = $rek_cpu/($rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar)*100;
-  $rek2_ram = $rek_ram/($rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar)*100;
-  $rek2_hdd = $rek_hdd/($rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar)*100;
-  $rek2_ssd = $rek_ssd/($rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar)*100;
-  $rek2_vga = $rek_vga/($rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar)*100;
-  $rek2_layar = $rek_layar/($rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar)*100;
-  $rek2_harga = $rek_harga/($rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar)*100;
+
+ 
+  $t_rek = $rek_merk+$rek_harga+$rek_cpu+$rek_ram+$rek_hdd+$rek_ssd+$rek_vga+$rek_layar+$rek_harga;
+  $rek2_merk = $rek_merk/$t_rek*100;
+  $rek2_cpu = $rek_cpu/$t_rek*100;
+  $rek2_ram = $rek_ram/$t_rek*100;
+  $rek2_hdd = $rek_hdd/$t_rek*100;
+  $rek2_ssd = $rek_ssd/$t_rek*100;
+  $rek2_vga = $rek_vga/$t_rek*100;
+  $rek2_layar = $rek_layar/$t_rek*100;
+  $rek2_harga = $rek_harga/$t_rek*100;
+ 
+  
 
 
   $laptop = mysqli_query($koneksi,"SELECT * FROM laptop JOIN ram ON laptop.ram = ram.nama JOIN cpu on laptop.cpu=cpu.nama JOIN vga ON laptop.vga=vga.nama ORDER BY tipe");
-  
+  $pangkat_nc_cpu =0;
+  $pangkat_merk=0;
+  $pangkat_vga=0;
+  $pangkat_ram=0;
+  $pangkat_hdd=0;
+  $pangkat_ssd=0;
+  $pangkat_layar=0;
+  $pangkat_harga=0;
   while($d_laptop = mysqli_fetch_array($laptop)){
     $n_tipe = $d_laptop["tipe"];
     $n_merk = $d_laptop["merk"];
@@ -125,11 +138,13 @@
       $sc_merk=3;
     elseif($n_merk=='Toshiba')
       $sc_merk=2;
+    elseif($n_merk=='MSI')
+      $sc_merk=4;
     else
       $sc_merk=1;
-    $pangkat_merk=0;
-    $pangkat_merk= $pangkat_merk + $sc_merk*$sc_merk;
+    $pangkat_merk= $pangkat_merk + ($sc_merk*$sc_merk);
     $normal_merk=sqrt($pangkat_merk);
+    
   
 
     if($nc_tipe == 'i7')
@@ -159,16 +174,18 @@
       $snc_generasi=1;
    
  
-     if ($nc_kecepatan>=3)
+     if ($nc_kecepatan>=4)
       $snc_kecepatan=5;
+     elseif ($nc_kecepatan>=3)
+      $snc_kecepatan=4;
      elseif ($nc_kecepatan>=2)
       $snc_kecepatan=3;
       else
         $snc_kecepatan=1;
 
    
-      $pangkat_nc_cpu=1;
     $nc_cpu= 0.4*$snc_tipe + 0.2*$snc_generasi +0.4*$snc_kecepatan;
+  
      $pangkat_nc_cpu = $pangkat_nc_cpu+$nc_cpu*$nc_cpu;
      $normal_cpu=sqrt($pangkat_nc_cpu);
 
@@ -191,7 +208,6 @@
     elseif ($r_ddr==2)
       $sr_ddr=1;
 
-$pangkat_ram=1;
     $s_ram=($sr_ddr+$sr_kapasitas)/2;
     $pangkat_ram=$pangkat_ram + $s_ram*$s_ram;
     $normal_ram=sqrt($pangkat_ram);
@@ -202,7 +218,6 @@ $pangkat_ram=1;
       $s_hdd=3;
     else
       $s_hdd=1;
-    $pangkat_hdd=1;
     $pangkat_hdd=$pangkat_hdd+$s_hdd*$s_hdd;
     $normal_hdd=sqrt($pangkat_hdd);
 
@@ -214,7 +229,6 @@ $pangkat_ram=1;
       $s_ssd=3;
     else
       $s_ssd=1;
-    $pangkat_ssd=1;
     $pangkat_ssd=$pangkat_ssd+$s_hdd*$s_ssd;
     $normal_ssd=sqrt($pangkat_ssd);
 
@@ -224,7 +238,6 @@ $pangkat_ram=1;
       $s_layar=3;
     else
       $s_layar=1;
-    $pangkat_layar=1;
     $pangkat_layar = $pangkat_layar+$s_layar*$s_layar;
     $normal_layar=sqrt($pangkat_layar);
 
@@ -238,7 +251,6 @@ $pangkat_ram=1;
       $s_harga=4;
     else
       $s_harga=5;
-    $pangkat_harga=1;
     $pangkat_harga=$pangkat_harga +$s_harga*$s_harga;
     $normal_harga=sqrt($pangkat_harga);
 
@@ -271,7 +283,6 @@ $pangkat_ram=1;
       $sv_kapasitas=3;
     else
       $sv_kapasitas =1;
-$pangkat_vga=1; 
     $s_vga= $sv_kecepatan*0.3 +$sv_ddr*0.3+$sv_kapasitas*0.2+$sv_merk*0.2;
     $pangkat_vga=$pangkat_vga+ $s_vga*$s_vga;
     $normal_vga=sqrt($pangkat_vga);
@@ -284,6 +295,7 @@ $pangkat_vga=1;
 
 
 }
+
   //menolah proses dari score laptop
 $normal = mysqli_query($koneksi,"SELECT * FROM score_laptop  ORDER BY tipe");
   
@@ -309,24 +321,24 @@ $normal = mysqli_query($koneksi,"SELECT * FROM score_laptop  ORDER BY tipe");
     $harga1=$norm_harga/$normal_harga;
     
     //Membuat normalisasi terbobot
-    $merk2=$merk1*$tb_merk;
-    $cpu2=$cpu1*$tb_merk;
-    $ram2=$ram1*$tb_ram;
-    $hdd2=$hdd1*$tb_hdd;
-    $ssd2=$ssd1*$tb_ssd;
-    $vga2=$vga1*$tb_vga;
-    $layar2=$layar1*$tb_layar;
-    $harga2=$harga1*$tb_harga;
+    $merk2=$merk1*$b_merk;
+    $cpu2=$cpu1*$b_merk;
+    $ram2=$ram1*$b_ram;
+    $hdd2=$hdd1*$b_hdd;
+    $ssd2=$ssd1*$b_ssd;
+    $vga2=$vga1*$b_vga;
+    $layar2=$layar1*$b_layar;
+    $harga2=$harga1*$b_harga;
 
     //Membuat normalisasi terbobot dari status
-    $rek_merk2=$merk1*$rek2_merk;
-    $rek_cpu2=$cpu1*$rek2_merk;
-    $rek_ram2=$ram1*$rek2_ram;
-    $rek_hdd2=$hdd1*$rek2_hdd;
-    $rek_ssd2=$ssd1*$rek2_ssd;
-    $rek_vga2=$vga1*$rek2_vga;
-    $rek_layar2=$layar1*$rek2_layar;
-    $rek_harga2=$harga1*$rek2_harga;
+    $rek_merk2=$merk1*$rek_merk;
+    $rek_cpu2=$cpu1*$rek_merk;
+    $rek_ram2=$ram1*$rek_ram;
+    $rek_hdd2=$hdd1*$rek_hdd;
+    $rek_ssd2=$ssd1*$rek_ssd;
+    $rek_vga2=$vga1*$rek_vga;
+    $rek_layar2=$layar1*$rek_layar;
+    $rek_harga2=$harga1*$rek_harga;
     
     $normal_laptop = mysqli_query($koneksi,"UPDATE normal_laptop set cpu='$cpu2', merk='$merk2', hdd='$hdd2', ram='$ram2', vga='$vga2', layar='$layar2', harga='$harga2',ssd='$ssd2',harga='$harga2'  WHERE tipe='$norm_tipe'");
     
@@ -387,54 +399,54 @@ $normal = mysqli_query($koneksi,"SELECT * FROM score_laptop  ORDER BY tipe");
 
 
     //Mencari nilai terkecil rekomendasi
-    $min2_ram= mysqli_query($koneksi,"SELECT min(ram) from normal_laptop");
+    $min2_ram= mysqli_query($koneksi,"SELECT min(ram) from rekom_laptop");
     while($min2_ram1 = mysqli_fetch_array($min2_ram)){
     $min2_ram2 = $min2_ram1['min(ram)'];}
-    $min2_cpu= mysqli_query($koneksi,"SELECT min(cpu) FROM normal_laptop");
+    $min2_cpu= mysqli_query($koneksi,"SELECT min(cpu) FROM rekom_laptop");
     while($min2_cpu1 = mysqli_fetch_array($min2_cpu)){
     $min2_cpu2 = $min2_cpu1['min(cpu)'];}
-    $min2_hdd= mysqli_query($koneksi,"SELECT min(hdd) FROM normal_laptop");
+    $min2_hdd= mysqli_query($koneksi,"SELECT min(hdd) FROM rekom_laptop");
     while($min2_hdd1 = mysqli_fetch_array($min2_hdd)){
     $min2_hdd2 = $min2_hdd1['min(hdd)'];}
-    $min2_ssd= mysqli_query($koneksi,"SELECT min(ssd) FROM normal_laptop");
+    $min2_ssd= mysqli_query($koneksi,"SELECT min(ssd) FROM rekom_laptop");
     while($min2_ssd1 = mysqli_fetch_array($min2_ssd)){
     $min2_ssd2 = $min2_ssd1['min(ssd)'];}
-    $min2_vga= mysqli_query($koneksi,"SELECT min(vga) FROM normal_laptop");
+    $min2_vga= mysqli_query($koneksi,"SELECT min(vga) FROM rekom_laptop");
     while($min2_vga1 = mysqli_fetch_array($min2_vga)){
     $min2_vga2 = $min2_vga1['min(vga)'];}
-    $min2_merk= mysqli_query($koneksi,"SELECT min(merk) FROM normal_laptop");
+    $min2_merk= mysqli_query($koneksi,"SELECT min(merk) FROM rekom_laptop");
     while($min2_merk1 = mysqli_fetch_array($min2_merk)){
     $min2_merk2 = $min2_merk1['min(merk)'];}
-    $min2_layar= mysqli_query($koneksi,"SELECT min(layar) FROM normal_laptop");
+    $min2_layar= mysqli_query($koneksi,"SELECT min(layar) FROM rekom_laptop");
     while($min2_layar1 = mysqli_fetch_array($min2_layar)){
     $min2_layar2 = $min2_layar1['min(layar)'];}
-    $min2_harga= mysqli_query($koneksi,"SELECT min(harga) FROM normal_laptop");
+    $min2_harga= mysqli_query($koneksi,"SELECT min(harga) FROM rekom_laptop");
     while($min2_harga1 = mysqli_fetch_array($min2_harga)){
     $min2_harga2 = $min2_harga1['min(harga)'];}
 
     //mencari nilai terbesar rekomendasi
-    $pos2_ram= mysqli_query($koneksi,"SELECT max(ram) from normal_laptop");
+    $pos2_ram= mysqli_query($koneksi,"SELECT max(ram) from rekom_laptop");
     while($pos2_ram1 = mysqli_fetch_array($pos2_ram)){
     $pos2_ram2 = $pos2_ram1['max(ram)'];}
-    $pos2_cpu= mysqli_query($koneksi,"SELECT max(cpu) FROM normal_laptop");
+    $pos2_cpu= mysqli_query($koneksi,"SELECT max(cpu) FROM rekom_laptop");
     while($pos2_cpu1 = mysqli_fetch_array($pos2_cpu)){
     $pos2_cpu2 = $pos2_cpu1['max(cpu)'];}
-    $pos2_hdd= mysqli_query($koneksi,"SELECT max(hdd) FROM normal_laptop");
+    $pos2_hdd= mysqli_query($koneksi,"SELECT max(hdd) FROM rekom_laptop");
     while($pos2_hdd1 = mysqli_fetch_array($pos2_hdd)){
     $pos2_hdd2 = $pos2_hdd1['max(hdd)'];}
-    $pos2_ssd= mysqli_query($koneksi,"SELECT max(ssd) FROM normal_laptop");
+    $pos2_ssd= mysqli_query($koneksi,"SELECT max(ssd) FROM rekom_laptop");
     while($pos2_ssd1 = mysqli_fetch_array($pos2_ssd)){
     $pos2_ssd2 = $pos2_ssd1['max(ssd)'];}
-    $pos2_vga= mysqli_query($koneksi,"SELECT max(vga) FROM normal_laptop");
+    $pos2_vga= mysqli_query($koneksi,"SELECT max(vga) FROM rekom_laptop");
     while($pos2_vga1 = mysqli_fetch_array($pos2_vga)){
     $pos2_vga2 = $pos2_vga1['max(vga)'];}
-    $pos2_merk= mysqli_query($koneksi,"SELECT max(merk) FROM normal_laptop");
+    $pos2_merk= mysqli_query($koneksi,"SELECT max(merk) FROM rekom_laptop");
     while($pos2_merk1 = mysqli_fetch_array($pos2_merk)){
     $pos2_merk2 = $pos2_merk1['max(merk)'];}
-    $pos2_layar= mysqli_query($koneksi,"SELECT max(layar) FROM normal_laptop");
+    $pos2_layar= mysqli_query($koneksi,"SELECT max(layar) FROM rekom_laptop");
     while($pos2_layar1 = mysqli_fetch_array($pos2_layar)){
     $pos2_layar2 = $pos2_layar1['max(layar)'];}
-    $pos2_harga= mysqli_query($koneksi,"SELECT max(harga) FROM normal_laptop");
+    $pos2_harga= mysqli_query($koneksi,"SELECT max(harga) FROM rekom_laptop");
     while($pos2_harga1 = mysqli_fetch_array($pos2_harga)){
     $pos2_harga2 = $pos2_harga1['max(harga)'];}
     
@@ -546,7 +558,7 @@ $pilihan2= mysqli_query($koneksi,"SELECT tipe FROM `prefensi` ORDER BY `nilai_re
 
     }
 
-    header("location:index.php");
+    header("location:index.php #kebutuhan");
   if($laptop){
     echo "\n Data berhasil di insert!";
   } else {
